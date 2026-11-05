@@ -1,0 +1,20 @@
+{
+  "name": "alifbe-uz",
+  "version": "1.0.0",
+  "description": "O'zbek alifbosini o'yin orqali 0 dan mukammal o'rganish uchun interaktiv veb-sayt",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "uzbek",
+    "alphabet",
+    "alifbe",
+    "education",
+    "games",
+    "interactive"
+  ],
+  "author": "Antigravity",
+  "license": "MIT"
+}
+

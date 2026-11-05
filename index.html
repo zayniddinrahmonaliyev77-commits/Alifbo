@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alifbe.uz – O'zbek Alifbosini O'yinlar Orqali Mukammal O'rganish</title>
+  <meta name="description" content="O'zbek alifbosini 0 dan mukammal o'rganish uchun interaktiv platforma: o'yinlar, yozuv mashqlari, rasmli lug'at, audio talaffuz va yakuniy sertifikat.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+  <!-- Yuqori Navigatsiya Paneli -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-indigo-100 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="navigateToSection('alifbe')">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-amber-400 flex items-center justify-center text-white text-2xl shadow-lg shadow-indigo-200">
+            📖
+          </div>
+          <div>
+            <span class="text-2xl font-black bg-gradient-to-r from-indigo-700 to-indigo-900 bg-clip-text text-transparent brand-font">
+              Alifbe<span class="text-amber-500">.uz</span>
+            </span>
+            <span class="block text-xs font-bold text-gray-500 -mt-1 tracking-wider uppercase">Alifbo Akademiyasi</span>
+          </div>
+        </div>
+
+        <!-- Desktop Navigatsiya -->
+        <nav class="hidden md:flex items-center gap-2">
+          <button class="nav-link active-nav" data-section="alifbe" onclick="navigateToSection('alifbe')">
+            <i class="fas fa-font"></i> Alifbe
+          </button>
+          <button class="nav-link" data-section="tracing" onclick="navigateToSection('tracing')">
+            <i class="fas fa-pen-nib"></i> Yozuv Mashqi
+          </button>
+          <button class="nav-link" data-section="games" onclick="navigateToSection('games')">
+            <i class="fas fa-gamepad"></i> O'yinlar
+          </button>
+          <button class="nav-link" data-section="dictionary" onclick="navigateToSection('dictionary')">
+            <i class="fas fa-book-open"></i> Rasmli Lug'at
+          </button>
+          <button class="nav-link" data-section="exam" onclick="navigateToSection('exam')">
+            <i class="fas fa-graduation-cap"></i> Imtihon
+          </button>
+          <button class="nav-link" data-section="achievements" onclick="navigateToSection('achievements')">
+            <i class="fas fa-medal"></i> Yutuqlar
+          </button>
+        </nav>
+
+        <!-- O'yinchi holati va Ovoz sozlamasi -->
+        <div class="flex items-center gap-3">
+          <!-- XP va Daraja vidjeti -->
+          <div class="hidden sm:flex items-center gap-2.5 bg-indigo-50/80 border border-indigo-100 py-1.5 px-3.5 rounded-2xl cursor-pointer" onclick="navigateToSection('achievements')">
+            <div class="w-8 h-8 rounded-full bg-amber-400 text-indigo-950 font-black text-xs flex items-center justify-center shadow-sm">
+              <i class="fas fa-star"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5 leading-none">
+                <span class="text-xs font-black text-indigo-900">Daraja <span id="header-user-level">1</span>:</span>
+                <span class="text-xs font-semibold text-gray-600" id="header-user-title">Boshlovchi</span>
+              </div>
+              <div class="flex items-center gap-2 mt-1">
+                <div class="w-20 bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                  <div id="header-level-progress" class="bg-amber-500 h-1.5 rounded-full" style="width: 0%"></div>
+                </div>
+                <span class="text-[10px] font-bold text-indigo-700"><span id="header-user-xp">0</span> XP</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ovoz yoqish/o'chirish -->
+          <button id="sound-toggle-btn" class="w-10 h-10 rounded-2xl bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center transition" title="Ovozni yoqish / o'chirish">
+            <i class="fas fa-volume-up"></i>
+          </button>
+
+          <!-- Mobil menyu tugmasi -->
+          <button id="mobile-menu-btn" class="md:hidden w-10 h-10 rounded-2xl bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center transition">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobil Menyu -->
+    <div id="mobile-nav" class="hidden md:hidden border-t border-gray-100 bg-white px-4 pt-3 pb-5 space-y-2">
+      <button class="w-full text-left p-2.5 rounded-xl font-bold text-gray-700 hover:bg-indigo-50 flex items-center gap-3" onclick="navigateToSection('alifbe')">
+        <i class="fas fa-font text-indigo-600"></i> Alifbe
+      </button>
+      <button class="w-full text-left p-2.5 rounded-xl font-bold text-gray-700 hover:bg-indigo-50 flex items-center gap-3" onclick="navigateToSection('tracing')">
+        <i class="fas fa-pen-nib text-indigo-600"></i> Yozuv Mashqi
+      </button>
+      <button class="w-full text-left p-2.5 rounded-xl font-bold text-gray-700 hover:bg-indigo-50 flex items-center gap-3" onclick="navigateToSection('games')">
+        <i class="fas fa-gamepad text-indigo-600"></i> O'yinlar
+      </button>
+      <button class="w-full text-left p-2.5 rounded-xl font-bold text-gray-700 hover:bg-indigo-50 flex items-center gap-3" onclick="navigateToSection('dictionary')">
+        <i class="fas fa-book-open text-indigo-600"></i> Rasmli Lug'at
+      </button>
+      <button class="w-full text-left p-2.5 rounded-xl font-bold text-gray-700 hover:bg-indigo-50 flex items-center gap-3" onclick="navigateToSection('exam')">
+        <i class="fas fa-graduation-cap text-indigo-600"></i> Imtihon
+      </button>
+      <button class="w-full text-left p-2.5 rounded-xl font-bold text-gray-700 hover:bg-indigo-50 flex items-center gap-3" onclick="navigateToSection('achievements')">
+        <i class="fas fa-medal text-indigo-600"></i> Yutuqlar
+      </button>
+    </div>
+  </header>
+
+  <!-- Asosiy Konteyner -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- HERO BANNER -->
+    <div class="relative bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-800 rounded-3xl p-6 sm:p-10 text-white shadow-xl mb-10 overflow-hidden">
+      <!-- Orqa fon bezaklari -->
+      <div class="absolute -right-10 -bottom-10 text-9xl opacity-10 font-black pointer-events-none select-none">
+        A B D
+      </div>
+      <div class="relative z-10 max-w-2xl">
+        <span class="inline-block px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold uppercase tracking-wider mb-3">
+          ✨ 100% Interaktiv & Bepul
+        </span>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight mb-4">
+          O'zbek alifbosini <span class="text-amber-300 underline decoration-wavy decoration-amber-400">0 dan mukammal</span> o'rganing!
+        </h1>
+        <p class="text-indigo-100 text-base sm:text-lg mb-6 leading-relaxed">
+          Harflar talaffuzi, so'zlar, qiziqarli o'yinlar, doskada yozish mashqlari va yakuniy sinovdan o'tib, rasmiy Alifbo Sertifikatiga ega bo'ling!
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <button class="bg-amber-400 hover:bg-amber-300 text-indigo-950 font-black px-6 py-3 rounded-2xl shadow-lg transition transform hover:-translate-y-0.5 flex items-center gap-2" onclick="navigateToSection('games')">
+            <i class="fas fa-play text-sm"></i> O'yinni boshlash
+          </button>
+          <button class="bg-white/20 hover:bg-white/30 text-white font-bold px-6 py-3 rounded-2xl backdrop-blur-sm transition flex items-center gap-2" onclick="navigateToSection('tracing')">
+            <i class="fas fa-pen text-sm"></i> Yozuv mashqi
+          </button>
+          <button class="bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3 rounded-2xl backdrop-blur-sm transition flex items-center gap-2" onclick="navigateToSection('exam')">
+            <i class="fas fa-graduation-cap text-sm"></i> Sinov & Sertifikat
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BO'LIM 1: ALIFBO KARTALARI -->
+    <section id="section-alifbe" class="app-section">
+      <!-- Boshqaruv va Filtrlash Paneli -->
+      <div class="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        
+        <!-- Yozuv turini almashtirgich (Lotin / Kirill) -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold text-gray-500 uppercase tracking-wider mr-1">Yozuv:</span>
+          <button class="script-btn active" data-script="latin" onclick="setScript('latin')">
+            Lotin (A a)
+          </button>
+          <button class="script-btn" data-script="cyrillic" onclick="setScript('cyrillic')">
+            Кирилл (А а)
+          </button>
+        </div>
+
+        <!-- Tovush filtri (Barchasi / Unli / Undosh) -->
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="text-xs font-bold text-gray-500 uppercase tracking-wider mr-1">Filtr:</span>
+          <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">
+            Barchasi (29)
+          </button>
+          <button class="filter-btn" data-filter="vowels" onclick="setFilter('vowels')">
+            Unlilar (6 ta) 🍎
+          </button>
+          <button class="filter-btn" data-filter="consonants" onclick="setFilter('consonants')">
+            Undoshlar (23 ta) 🐟
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Harflar Kartochkalari Katakchasi -->
+      <div id="alphabet-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-5">
+        <!-- JS orqali to'ldiriladi -->
+      </div>
+    </section>
+
+    <!-- BO'LIM 2: YOZUV MASHQI (TRACING) -->
+    <section id="section-tracing" class="app-section hidden">
+      <div class="max-w-4xl mx-auto bg-white rounded-3xl p-6 sm:p-10 border border-gray-100 shadow-xl">
+        <div class="text-center mb-6">
+          <span class="px-4 py-1.5 rounded-full bg-purple-100 text-purple-800 font-bold text-xs uppercase tracking-wider">
+            ✍️ Interaktiv Doska
+          </span>
+          <h2 class="text-3xl font-black text-gray-800 mt-2">Harflarni Chiroyli Yozish Mashqi</h2>
+          <p class="text-sm text-gray-600 mt-1">Ko'rsatilgan chiziqlar ustidan barmog'ingiz yoki sichqoncha bilan harfni chizing!</p>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center justify-center gap-8">
+          
+          <!-- Chizish Canvasi -->
+          <div class="relative flex flex-col items-center">
+            <canvas id="tracing-canvas"></canvas>
+            
+            <!-- Harf tanlash va o'zgartirish tugmalari -->
+            <div class="flex items-center gap-4 mt-4">
+              <button class="secondary-btn w-10 h-10 rounded-full" onclick="changeTracingLetter(-1)">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <div class="text-center min-w-[120px]">
+                <span class="text-2xl font-black text-indigo-700" id="tracing-letter-display">A a</span>
+                <span class="block text-xs text-gray-400 font-bold" id="tracing-letter-name">Anor</span>
+              </div>
+              <button class="secondary-btn w-10 h-10 rounded-full" onclick="changeTracingLetter(1)">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Asboblar paneli -->
+          <div class="w-full md:w-64 flex flex-col gap-5">
+            <!-- Katta / Kichik harf tanlagich -->
+            <div>
+              <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Harf ko'rinishi:</label>
+              <div class="grid grid-cols-2 gap-2">
+                <button id="case-upper-btn" class="filter-btn active py-2 text-center" onclick="setTracingCase(true)">
+                  Katta (A)
+                </button>
+                <button id="case-lower-btn" class="filter-btn py-2 text-center" onclick="setTracingCase(false)">
+                  Kichik (a)
+                </button>
+              </div>
+            </div>
+
+            <!-- Rang tanlagich -->
+            <div>
+              <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Rangni tanlang:</label>
+              <div class="flex items-center gap-2">
+                <div class="color-dot ring-4 ring-indigo-300" style="background: #4f46e5" data-color="#4f46e5"></div>
+                <div class="color-dot" style="background: #ef4444" data-color="#ef4444"></div>
+                <div class="color-dot" style="background: #10b981" data-color="#10b981"></div>
+                <div class="color-dot" style="background: #f59e0b" data-color="#f59e0b"></div>
+                <div class="color-dot" style="background: #8b5cf6" data-color="#8b5cf6"></div>
+                <div class="color-dot" style="background: #0f172a" data-color="#0f172a"></div>
+              </div>
+            </div>
+
+            <!-- Qalam qalinligi -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-xs font-bold text-gray-500 uppercase tracking-wider">Qalinlik:</label>
+                <span class="text-xs font-bold text-indigo-600" id="brush-size-val">18px</span>
+              </div>
+              <input type="range" min="8" max="32" value="18" class="w-full accent-indigo-600" oninput="tracingApp.setBrushSize(this.value); document.getElementById('brush-size-val').textContent = this.value + 'px';">
+            </div>
+
+            <!-- Harakat tugmalari -->
+            <div class="space-y-2 pt-2 border-t border-gray-100">
+              <button class="primary-btn w-full py-3 text-base" onclick="tracingApp.checkDrawing()">
+                <i class="fas fa-check-circle mr-2"></i> Tekshirish & Baholash
+              </button>
+              <button class="secondary-btn w-full py-2.5 text-sm" onclick="tracingApp.clearCanvas(); audio.playClick();">
+                <i class="fas fa-eraser mr-2"></i> Tozalash
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- BO'LIM 3: O'YINLAR (GAMES HUB) -->
+    <section id="section-games" class="app-section hidden">
+      <div id="game-play-area">
+        <!-- JS orqali o'yin menyusi yoki faol o'yin joylashadi -->
+      </div>
+    </section>
+
+    <!-- BO'LIM 4: RASMLI LUG'AT -->
+    <section id="section-dictionary" class="app-section hidden">
+      <div class="text-center max-w-2xl mx-auto mb-8">
+        <span class="px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs uppercase tracking-wider">
+          📖 Boyitilgan Rasmli Lug'at
+        </span>
+        <h2 class="text-3xl font-black text-gray-800 mt-2">Alifbo So'zlar Xazinasi</h2>
+        <p class="text-gray-600 mt-1">Har bir harf uchun namunaviy so'zlar, tasvirlar, tarjima va qiziqarli gaplar!</p>
+      </div>
+
+      <div id="dictionary-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        <!-- JS orqali to'ldiriladi -->
+      </div>
+    </section>
+
+    <!-- BO'LIM 5: IMTIHON & SERTIFIKAT -->
+    <section id="section-exam" class="app-section hidden">
+      <div id="exam-container">
+        <!-- JS orqali imtihon ko'rsatiladi -->
+      </div>
+    </section>
+
+    <!-- BO'LIM 6: YUTUQLAR & STATISTIKA -->
+    <section id="section-achievements" class="app-section hidden">
+      <div class="max-w-4xl mx-auto space-y-8">
+        
+        <!-- Statistika kartochkalari -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm text-center">
+            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 text-2xl flex items-center justify-center mx-auto mb-2">
+              ⭐
+            </div>
+            <span class="text-3xl font-black text-gray-800 block" id="stat-learned-count">0 / 29</span>
+            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">O'rganilgan harflar</span>
+          </div>
+
+          <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm text-center">
+            <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 text-2xl flex items-center justify-center mx-auto mb-2">
+              ✍️
+            </div>
+            <span class="text-3xl font-black text-gray-800 block" id="stat-practiced-count">0 / 29</span>
+            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Mashq qilingan</span>
+          </div>
+
+          <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm text-center">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 text-2xl flex items-center justify-center mx-auto mb-2">
+              🏆
+            </div>
+            <span class="text-3xl font-black text-gray-800 block" id="stat-badges-count">6 ta</span>
+            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Mavjud Medallar</span>
+          </div>
+        </div>
+
+        <!-- Badges & Medallar -->
+        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm">
+          <h3 class="text-2xl font-black text-gray-800 mb-6 flex items-center gap-2">
+            <span>🎖️</span> Sizning Medallaringiz va Yutuqlaringiz
+          </h3>
+          <div id="badges-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- JS orqali to'ldiriladi -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: HARF BATAFSIL MA'LUMOTI -->
+  <div id="letter-detail-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-indigo-100 transform transition-all max-h-[90vh] overflow-y-auto">
+      
+      <div class="flex justify-between items-start mb-4">
+        <div>
+          <span class="px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 font-bold text-xs" id="modal-letter-name">
+            A (Unli tovush)
+          </span>
+          <span class="text-xs text-gray-500 ml-2" id="modal-cyrillic-char">Кирилл: А а</span>
+        </div>
+        <button class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 flex items-center justify-center" onclick="closeModal('letter-detail-modal')">
+          ✕
+        </button>
+      </div>
+
+      <div class="text-center py-4 bg-gradient-to-b from-indigo-50/50 to-white rounded-2xl border border-indigo-50 mb-6">
+        <div class="text-7xl font-black text-indigo-950 mb-1">
+          <span id="modal-upper-char">A</span> <span class="text-indigo-600 text-6xl" id="modal-lower-char">a</span>
+        </div>
+        <p class="text-xs text-indigo-700 italic font-medium px-4 mt-1" id="modal-letter-hint">
+          Og'iz keng ochilib erkin aytiladi
+        </p>
+      </div>
+
+      <!-- Asosiy So'z -->
+      <div class="flex items-center gap-4 p-4 rounded-2xl bg-amber-50/60 border border-amber-200 mb-5">
+        <div class="text-5xl filter drop-shadow" id="modal-main-emoji">🍎</div>
+        <div>
+          <h4 class="text-2xl font-black text-gray-900" id="modal-main-word">Anor</h4>
+          <p class="text-xs text-gray-600 mt-0.5" id="modal-main-sentence">Anor – shirin va foydali nordon meva.</p>
+        </div>
+      </div>
+
+      <!-- Qo'shimcha So'zlar -->
+      <h5 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Boshqa namunaviy so'zlar:</h5>
+      <div class="grid grid-cols-2 gap-2 mb-6" id="modal-extra-words">
+      </div>
+
+      <div class="flex gap-3">
+        <button id="modal-speak-btn" class="secondary-btn flex-1 py-3 text-sm">
+          <i class="fas fa-volume-up mr-2 text-indigo-600"></i> Talaffuz
+        </button>
+        <button id="modal-practice-btn" class="primary-btn flex-1 py-3 text-sm">
+          <i class="fas fa-pen-nib mr-2"></i> Yozishni Mashq Qilish
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL: YOZUV NATIJASI -->
+  <div id="tracing-result-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-8 text-center shadow-2xl border border-indigo-100">
+      <div class="text-4xl mb-2" id="tr-stars">⭐⭐⭐</div>
+      <h3 class="text-2xl font-black text-gray-800 mb-2">Yozuv Baholandi!</h3>
+      <p class="text-sm text-gray-600 mb-4" id="tr-feedback">Ajoyib natija!</p>
+      <div class="inline-block px-4 py-1.5 rounded-full bg-amber-100 text-amber-800 font-extrabold text-sm mb-6" id="tr-xp">
+        +30 XP
+      </div>
+      <div class="space-y-2">
+        <button id="tr-next-btn" class="primary-btn w-full py-3">
+          Keyingi harfga o'tish 🚀
+        </button>
+        <button class="secondary-btn w-full py-2.5 text-sm" onclick="closeModal('tracing-result-modal')">
+          Yana mashq qilish
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: RASMIY SERTIFIKAT -->
+  <div id="certificate-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-4 hidden overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative">
+      <button class="absolute top-4 right-4 w-9 h-9 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 flex items-center justify-center z-10" onclick="closeModal('certificate-modal')">
+        ✕
+      </button>
+
+      <div id="certificate-render-area">
+        <!-- JS orqali generatsiya qilinadi -->
+      </div>
+
+      <div class="flex justify-center gap-4 mt-6 modal-actions">
+        <button class="primary-btn py-3 px-6" onclick="window.print()">
+          <i class="fas fa-print mr-2"></i> Chop Etish / PDF saqlash
+        </button>
+        <button class="secondary-btn py-3 px-6" onclick="closeModal('certificate-modal')">
+          Yopish
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pastki Qism (Footer) -->
+  <footer class="bg-white border-t border-gray-100 py-8 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <span class="text-2xl">🇺🇿</span>
+        <p class="text-sm text-gray-500 font-medium">
+          <strong>Alifbe.uz</strong> – O'zbek tili va alifbosini interaktiv o'yinlar orqali o'rganish platformasi.
+        </p>
+      </div>
+      <div class="text-xs text-gray-400 font-medium">
+        Barcha huquqlar himoyalangan &copy; 2026. Sevgi bilan yaratilgan 💖
+      </div>
+    </div>
+  </footer>
+
+  <!-- Dastur Skriptlari -->
+  <script src="js/data.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/tracing.js"></script>
+  <script src="js/games.js"></script>
+  <script src="js/exam.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- Yordamchi Tracing navigatsiya funksiyalari -->
+  <script>
+    let currentTracingIdx = 0;
+    function changeTracingLetter(direction) {
+      const list = ALPHABET_DATA.latin;
+      currentTracingIdx = (currentTracingIdx + direction + list.length) % list.length;
+      const letter = list[currentTracingIdx];
+      tracingApp.loadLetter(letter, tracingApp.isUpperCase);
+      document.getElementById("tracing-letter-display").textContent = `${letter.upper} ${letter.lower}`;
+      document.getElementById("tracing-letter-name").textContent = letter.word;
+      audio.playClick();
+      audio.speakLetter(letter);
+    }
+
+    function setTracingCase(isUpper) {
+      tracingApp.isUpperCase = isUpper;
+      document.getElementById("case-upper-btn").classList.toggle("active", isUpper);
+      document.getElementById("case-lower-btn").classList.toggle("active", !isUpper);
+      tracingApp.clearCanvas();
+      audio.playClick();
+    }
+  </script>
+</body>
+</html>
+
